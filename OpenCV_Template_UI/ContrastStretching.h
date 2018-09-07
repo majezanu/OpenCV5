@@ -5,6 +5,7 @@
 #include <opencv/cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "Img.h"
 
 
 namespace OpenCVTemplateUI {
@@ -406,12 +407,15 @@ namespace OpenCVTemplateUI {
 #pragma endregion
 	private: System::Void applyContrast_Click(System::Object^  sender, System::EventArgs^  e) {
 		Mat img;
+		Img im, new_Image;
 		img = imread("images/Fig3_10.tif");
 		if (img.data)
 		{
-			
-			DrawCvImageColor(contrastStretching(img,R1->Value,S1->Value,R2->Value,S2->Value), pictureBox2);
+			im.setMat(img);
+			new_Image.setMat(im.contrastStretching(R1->Value, S1->Value, R2->Value, S2->Value));
+		
 		}
+		new_Image.DrawCvImageColor(pictureBox2);
 		applyContrast->Enabled = false;
 		
 
@@ -419,24 +423,15 @@ namespace OpenCVTemplateUI {
 	
 
 
-	private: System::Void DrawCvImageColor(Mat img, System::Windows::Forms::PictureBox^ localBox)
-	{
-			 cvtColor(img, img, CV_BGRA2RGBA);
-			 System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
-			 System::IntPtr ptr(img.ptr());
-			 System::Drawing::Bitmap^ b = gcnew System::Drawing::Bitmap(img.cols,
-				 img.rows, img.step, System::Drawing::Imaging::PixelFormat::Format32bppArgb, ptr);
-			 System::Drawing::RectangleF rect(0, 0, localBox->Width, localBox->Height);
-			 graphics->DrawImage(b, rect);
-	}
-
 
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im;
 	img = imread("images/Fig3_10.tif");
 	if (img.data)
 	{
-		DrawCvImageColor(img, pictureBox4);
+		im.setMat(img);
+		im.DrawCvImageColor(pictureBox4);
 	}
 	button7->Enabled = false;
 
@@ -444,54 +439,9 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 	applyThreshold->Enabled = true;
 	
 }
-private: Mat contrastStretching(Mat original_image, int r1, int s1, int r2, int s2)
-{
-	Mat clone = original_image.clone();
-	//cvtColor(clone, gray_image, COLOR_BGR2GRAY);
-	for (int y = 0; y < original_image.rows; y++) {
-		for (int x = 0; x < original_image.cols; x++) {
-			for (int c = 0; c < 3; c++) {
-				int output = computeContrast(original_image.at<Vec3b>(y, x)[c], r1, s1, r2, s2);
-				clone.at<Vec3b>(y, x)[c] = saturate_cast<uchar>(output);
-			}
-		}
-	}
-	return clone;
-}
-private: Mat threshold(Mat original_image, int k)
-{
-	Mat clone = original_image.clone();
-	//cvtColor(clone, gray_image, COLOR_BGR2GRAY);
-	for (int y = 0; y < original_image.rows; y++) {
-		for (int x = 0; x < original_image.cols; x++) {
-			for (int c = 0; c < 3; c++) {
-				if (clone.at<Vec3b>(y, x)[c] <= k)
-				{
-					clone.at<Vec3b>(y, x)[c] = 0;
-				}
-				else {
-					clone.at<Vec3b>(y, x)[c] = 255;
-				}
-			}
-		}
-	}
-	return clone;
-}
-private: int computeContrast(int point, int r1, int s1, int r2, int s2)
-{
-	int x = point;
-	float result;
-	if (0 <= x && x <= r1) {
-		result = (x*s1)/(r1+1);
-	}
-	else if (r1 < x && x <= r2) {
-		result = (x*(s2 - s1)) / (r2 - r1 + 1);
-	}
-	else if (r2 < x && x <= 255) {
-		result = (x * (256 - s2) / (256 - r2)) + s2;
-	}
-	return (int)result;
-}
+
+
+
 private: System::Void ContrastStretching_Load(System::Object^  sender, System::EventArgs^  e) {
 	applyContrast->Enabled = false;
 	applyThreshold->Enabled = false;
@@ -507,11 +457,14 @@ private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  
 }
 private: System::Void applyThreshold_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im = Img();
+	Img new_Image;
 	img = imread("images/Fig3_10.tif");
 	if (img.data)
 	{
-		//imshow("Threshold", threshold(img, trackBar1->Value));
-		DrawCvImageColor(threshold(img, trackBar1->Value+100), pictureBox3);
+		im.setMat(img);
+		new_Image.setMat(im.threshold(trackBar1->Value + 100));
+		new_Image.DrawCvImageColor(pictureBox3);
 	}
 	applyThreshold->Enabled = false;
 }

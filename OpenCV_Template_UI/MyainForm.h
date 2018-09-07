@@ -5,6 +5,8 @@
 #include "ContrastStretching.h"
 #include "Histogram.h"
 #include "LocalHist.h"
+#include "LocalHistogramStatistics.h"
+#include "NonlinearFilter.h"
 #include "About.h"
 
 namespace OpenCVTemplateUI {
@@ -45,10 +47,10 @@ namespace OpenCVTemplateUI {
 		private: System::Windows::Forms::MenuStrip^  menuStrip1;
 				 
 		protected:
-		private: System::Windows::Forms::ToolStripMenuItem^  negativeTransformationToolStripMenuItem;
-		private: System::Windows::Forms::ToolStripMenuItem^  negativeToolStripMenuItem;
-		private: System::Windows::Forms::ToolStripMenuItem^  gammaToolStripMenuItem;
-		private: System::Windows::Forms::ToolStripMenuItem^  logaritmicToolStripMenuItem;
+
+
+
+
 				 IntensityTransForm^ h;
 
 
@@ -56,14 +58,32 @@ namespace OpenCVTemplateUI {
 
 
 		private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+
+
+
+
+
+
+
+
+	private: System::Windows::Forms::ToolStripMenuItem^  histogramProcessingToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  histogramToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^  manualToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^  automaticToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^  localHistogramToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^  localHistogramStatisticsToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  negativeTransformationToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  negativeToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  gammaToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  fig307ToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  fig308ToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  fig309ToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  logaritmicToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  contrastStrechingToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  histogramToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  manualToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  automaticToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  localHistogramToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  spatialFilteringToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  nonlinearToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  medianFilterToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  laplacianToolStripMenuItem;
 
 
 
@@ -93,19 +113,25 @@ namespace OpenCVTemplateUI {
 					this->fig309ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->logaritmicToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->contrastStrechingToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->histogramToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->manualToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->automaticToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->histogramProcessingToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->histogramToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->manualToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->automaticToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->localHistogramToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->localHistogramStatisticsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->spatialFilteringToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->nonlinearToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->medianFilterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->localHistogramToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->laplacianToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->menuStrip1->SuspendLayout();
 					this->SuspendLayout();
 					// 
 					// menuStrip1
 					// 
-					this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+					this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
 						this->negativeTransformationToolStripMenuItem,
-							this->aboutToolStripMenuItem
+							this->histogramProcessingToolStripMenuItem, this->spatialFilteringToolStripMenuItem, this->aboutToolStripMenuItem
 					});
 					this->menuStrip1->Location = System::Drawing::Point(0, 0);
 					this->menuStrip1->Name = L"menuStrip1";
@@ -115,10 +141,9 @@ namespace OpenCVTemplateUI {
 					// 
 					// negativeTransformationToolStripMenuItem
 					// 
-					this->negativeTransformationToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {
+					this->negativeTransformationToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
 						this->negativeToolStripMenuItem,
-							this->gammaToolStripMenuItem, this->logaritmicToolStripMenuItem, this->contrastStrechingToolStripMenuItem, this->histogramToolStripMenuItem,
-							this->localHistogramToolStripMenuItem
+							this->gammaToolStripMenuItem, this->logaritmicToolStripMenuItem, this->contrastStrechingToolStripMenuItem
 					});
 					this->negativeTransformationToolStripMenuItem->Name = L"negativeTransformationToolStripMenuItem";
 					this->negativeTransformationToolStripMenuItem->Size = System::Drawing::Size(148, 20);
@@ -128,7 +153,7 @@ namespace OpenCVTemplateUI {
 					// negativeToolStripMenuItem
 					// 
 					this->negativeToolStripMenuItem->Name = L"negativeToolStripMenuItem";
-					this->negativeToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->negativeToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->negativeToolStripMenuItem->Text = L"Negative";
 					this->negativeToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::negativeToolStripMenuItem_Click);
 					// 
@@ -139,7 +164,7 @@ namespace OpenCVTemplateUI {
 							this->fig308ToolStripMenuItem, this->fig309ToolStripMenuItem
 					});
 					this->gammaToolStripMenuItem->Name = L"gammaToolStripMenuItem";
-					this->gammaToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->gammaToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->gammaToolStripMenuItem->Text = L"Gamma";
 					this->gammaToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::gammaToolStripMenuItem_Click);
 					// 
@@ -167,41 +192,89 @@ namespace OpenCVTemplateUI {
 					// logaritmicToolStripMenuItem
 					// 
 					this->logaritmicToolStripMenuItem->Name = L"logaritmicToolStripMenuItem";
-					this->logaritmicToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->logaritmicToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->logaritmicToolStripMenuItem->Text = L"Logaritmic";
 					this->logaritmicToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::logaritmicToolStripMenuItem_Click);
 					// 
 					// contrastStrechingToolStripMenuItem
 					// 
 					this->contrastStrechingToolStripMenuItem->Name = L"contrastStrechingToolStripMenuItem";
-					this->contrastStrechingToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->contrastStrechingToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->contrastStrechingToolStripMenuItem->Text = L"Contrast Streching";
 					this->contrastStrechingToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::contrastStrechingToolStripMenuItem_Click);
 					// 
-					// histogramToolStripMenuItem
+					// histogramProcessingToolStripMenuItem
 					// 
-					this->histogramToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-						this->manualToolStripMenuItem,
-							this->automaticToolStripMenuItem
+					this->histogramProcessingToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+						this->histogramToolStripMenuItem1,
+							this->localHistogramToolStripMenuItem1, this->localHistogramStatisticsToolStripMenuItem
 					});
-					this->histogramToolStripMenuItem->Name = L"histogramToolStripMenuItem";
-					this->histogramToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-					this->histogramToolStripMenuItem->Text = L"Histogram";
-					this->histogramToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::histogramToolStripMenuItem_Click);
+					this->histogramProcessingToolStripMenuItem->Name = L"histogramProcessingToolStripMenuItem";
+					this->histogramProcessingToolStripMenuItem->Size = System::Drawing::Size(135, 20);
+					this->histogramProcessingToolStripMenuItem->Text = L"Histogram Processing";
 					// 
-					// manualToolStripMenuItem
+					// histogramToolStripMenuItem1
 					// 
-					this->manualToolStripMenuItem->Name = L"manualToolStripMenuItem";
-					this->manualToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-					this->manualToolStripMenuItem->Text = L"Manual";
-					this->manualToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::manualToolStripMenuItem_Click);
+					this->histogramToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+						this->manualToolStripMenuItem1,
+							this->automaticToolStripMenuItem1
+					});
+					this->histogramToolStripMenuItem1->Name = L"histogramToolStripMenuItem1";
+					this->histogramToolStripMenuItem1->Size = System::Drawing::Size(210, 22);
+					this->histogramToolStripMenuItem1->Text = L"Histogram";
 					// 
-					// automaticToolStripMenuItem
+					// manualToolStripMenuItem1
 					// 
-					this->automaticToolStripMenuItem->Name = L"automaticToolStripMenuItem";
-					this->automaticToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-					this->automaticToolStripMenuItem->Text = L"Automatic";
-					this->automaticToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::automaticToolStripMenuItem_Click);
+					this->manualToolStripMenuItem1->Name = L"manualToolStripMenuItem1";
+					this->manualToolStripMenuItem1->Size = System::Drawing::Size(130, 22);
+					this->manualToolStripMenuItem1->Text = L"Manual";
+					this->manualToolStripMenuItem1->Click += gcnew System::EventHandler(this, &MyainForm::manualToolStripMenuItem1_Click);
+					// 
+					// automaticToolStripMenuItem1
+					// 
+					this->automaticToolStripMenuItem1->Name = L"automaticToolStripMenuItem1";
+					this->automaticToolStripMenuItem1->Size = System::Drawing::Size(130, 22);
+					this->automaticToolStripMenuItem1->Text = L"Automatic";
+					this->automaticToolStripMenuItem1->Click += gcnew System::EventHandler(this, &MyainForm::automaticToolStripMenuItem1_Click);
+					// 
+					// localHistogramToolStripMenuItem1
+					// 
+					this->localHistogramToolStripMenuItem1->Name = L"localHistogramToolStripMenuItem1";
+					this->localHistogramToolStripMenuItem1->Size = System::Drawing::Size(210, 22);
+					this->localHistogramToolStripMenuItem1->Text = L"Local Histogram";
+					this->localHistogramToolStripMenuItem1->Click += gcnew System::EventHandler(this, &MyainForm::localHistogramToolStripMenuItem1_Click);
+					// 
+					// localHistogramStatisticsToolStripMenuItem
+					// 
+					this->localHistogramStatisticsToolStripMenuItem->Name = L"localHistogramStatisticsToolStripMenuItem";
+					this->localHistogramStatisticsToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+					this->localHistogramStatisticsToolStripMenuItem->Text = L"Local Histogram Statistics";
+					this->localHistogramStatisticsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::localHistogramStatisticsToolStripMenuItem_Click);
+					// 
+					// spatialFilteringToolStripMenuItem
+					// 
+					this->spatialFilteringToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+						this->nonlinearToolStripMenuItem,
+							this->laplacianToolStripMenuItem
+					});
+					this->spatialFilteringToolStripMenuItem->Name = L"spatialFilteringToolStripMenuItem";
+					this->spatialFilteringToolStripMenuItem->Size = System::Drawing::Size(100, 20);
+					this->spatialFilteringToolStripMenuItem->Text = L"Spatial Filtering";
+					// 
+					// nonlinearToolStripMenuItem
+					// 
+					this->nonlinearToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->medianFilterToolStripMenuItem });
+					this->nonlinearToolStripMenuItem->Name = L"nonlinearToolStripMenuItem";
+					this->nonlinearToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->nonlinearToolStripMenuItem->Text = L"Nonlinear Filtering";
+					this->nonlinearToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::nonlinearToolStripMenuItem_Click);
+					// 
+					// medianFilterToolStripMenuItem
+					// 
+					this->medianFilterToolStripMenuItem->Name = L"medianFilterToolStripMenuItem";
+					this->medianFilterToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+					this->medianFilterToolStripMenuItem->Text = L"Median Filter";
+					this->medianFilterToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::medianFilterToolStripMenuItem_Click);
 					// 
 					// aboutToolStripMenuItem
 					// 
@@ -210,12 +283,11 @@ namespace OpenCVTemplateUI {
 					this->aboutToolStripMenuItem->Text = L"About";
 					this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::aboutToolStripMenuItem_Click);
 					// 
-					// localHistogramToolStripMenuItem
+					// laplacianToolStripMenuItem
 					// 
-					this->localHistogramToolStripMenuItem->Name = L"localHistogramToolStripMenuItem";
-					this->localHistogramToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-					this->localHistogramToolStripMenuItem->Text = L"Local Histogram";
-					this->localHistogramToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::localHistogramToolStripMenuItem_Click);
+					this->laplacianToolStripMenuItem->Name = L"laplacianToolStripMenuItem";
+					this->laplacianToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->laplacianToolStripMenuItem->Text = L"Laplacian";
 					// 
 					// MyainForm
 					// 
@@ -314,6 +386,24 @@ namespace OpenCVTemplateUI {
 			h->Show();
 			h->Activate();
 		}
+		private: System::Void LocalHistStatsView()
+		{
+			clearMDI();
+			LocalHistogramStatistics^ h = gcnew LocalHistogramStatistics();
+			h->MdiParent = this;
+			h->MaximizeBox = true;
+			h->Show();
+			h->Activate();
+		}
+		private: System::Void NonLinearFilteringView()
+		{
+			clearMDI();
+			NonlinearFilter^ h = gcnew NonlinearFilter();
+			h->MdiParent = this;
+			h->MaximizeBox = true;
+			h->Show();
+			h->Activate();
+		}
 		private: System::Void aboutView()
 		{
 			clearMDI();
@@ -350,17 +440,27 @@ private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, Syst
 
 }
 
-private: System::Void histogramToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	
-}
-private: System::Void manualToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+private: System::Void manualToolStripMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 	HistogramProcessingView(2);
 }
-private: System::Void automaticToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+private: System::Void automaticToolStripMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 	HistogramProcessingView(1);
 }
-private: System::Void localHistogramToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void localHistogramToolStripMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 	LocalHistView();
+}
+private: System::Void localHistogramToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	
+}
+private: System::Void localHistogramStatisticsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	LocalHistStatsView();
+}
+private: System::Void nonlinearToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void medianFilterToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	NonLinearFilteringView();
 }
 };
 }

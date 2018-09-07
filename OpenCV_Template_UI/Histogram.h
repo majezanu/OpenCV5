@@ -5,6 +5,7 @@
 #include <opencv/cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "Img.h"
 namespace OpenCVTemplateUI {
 
 	using namespace System;
@@ -204,17 +205,27 @@ namespace OpenCVTemplateUI {
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		Mat img, img2, img3, img4;
+		Img im;
 		img = imread("images/Fig0320(1)(top_left).tif");
 		img2 = imread("images/Fig0320(2)(2nd_from_top).tif");
 		img3 = imread("images/Fig0320(3)(third_from_top).tif");
 		img4 = imread("images/Fig0320(4)(bottom_left).tif");
 		if (img.data && img2.data && img3.data && img4.data)
 		{
+			im.setMat(img); 
+			im.DrawCvImageColor(pictureBox4);
 			
-			DrawCvImageColor(img, pictureBox4);
-			DrawCvImageColor(img2, pictureBox1);
-			DrawCvImageColor(img3, pictureBox3);
-			DrawCvImageColor(img4, pictureBox2);
+			im.setMat(img2);
+			im.DrawCvImageColor(pictureBox1);
+			
+			im.setMat(img3);
+			im.DrawCvImageColor(pictureBox3);
+			
+			im.setMat(img4);
+			im.DrawCvImageColor(pictureBox2);
+			
+			
+			
 
 		}
 		
@@ -222,98 +233,75 @@ namespace OpenCVTemplateUI {
 		
 	}
 	
-	private: Mat histogramProcessingManual(Mat origianl_image)
-	{
-		Mat src, src_gray, dst;
-		std::vector<float> histogram(256, 0.0000);
-		src = origianl_image.clone();
+	
 
-
-		cvtColor(src, src_gray, COLOR_BGR2GRAY);
-		src_gray.convertTo(dst, CV_32F);
-
-		for (int i = 0; i < src_gray.rows; i++) {
-			for (int j = 0; j < src_gray.cols; j++) {
-				histogram.at(src_gray.at<uchar>(i, j)) += 1;
-			}
-		}
-
-		for (int i = 1; i < 256; i++) {
-			histogram.at(i) = histogram.at(i) + histogram.at(i - 1);
-			histogram.at(i - 1) /= dst.total();
-			if (i == 255)
-			{
-				histogram.at(i) /= dst.total();
-			}
-		}
-
-
-
-		for (int i = 0; i < src_gray.rows; i++) {
-			for (int j = 0; j < src_gray.cols; j++) {
-
-				dst.at<float>(i, j) = histogram.at(src_gray.at<uchar>(i, j)) * dst.at<float>(i, j);
-
-			}
-		}
-		normalize(dst, dst, 0, 255, NORM_MINMAX);		//la normalizamos a 256 niveles
-		//convertScaleAbs(dst, dst);
-		dst.convertTo(dst, CV_8UC1);					//Regresamos la imagen a 8-bit
-		cvtColor(dst, dst, cv::COLOR_GRAY2BGR);
-		return dst;
-	}
-	private: Mat cvHistogramEqu(Mat original_image)
-	{
-		Mat clone = original_image.clone();
-
-		/// Convert to grayscale
-		cvtColor(clone, clone, COLOR_BGR2GRAY);
-
-		/// Apply Histogram Equalization
-		equalizeHist(clone, clone);
-		cvtColor(clone, clone, COLOR_GRAY2BGR);
-		return clone;
-	}
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img,img2,img3,img4;
+	Img im;
+
 	img = imread("images/Fig0320(1)(top_left).tif");
 	img2 = imread("images/Fig0320(2)(2nd_from_top).tif");
 	img3 = imread("images/Fig0320(3)(third_from_top).tif");
 	img4 = imread("images/Fig0320(4)(bottom_left).tif");
 	if (img.data && img2.data && img3.data && img4.data)
 	{
+		
+		
+		
+		
 		if (caso == 1)
 		{
-			DrawCvImageColor(cvHistogramEqu(img), pictureBox8);
-			DrawCvImageColor(cvHistogramEqu(img2), pictureBox7);
-			DrawCvImageColor(cvHistogramEqu(img3), pictureBox6);
-			DrawCvImageColor(cvHistogramEqu(img4), pictureBox5);
+			im.setMat(img);
+			im.setMat(im.cvHistogramEqu());
+			im.DrawCvImageColor(pictureBox8);
+
+			im.setMat(img2);
+			im.setMat(im.cvHistogramEqu());
+			im.DrawCvImageColor(pictureBox7);
+
+			im.setMat(img3);
+			im.setMat(im.cvHistogramEqu());
+			im.DrawCvImageColor(pictureBox6);
+
+			im.setMat(img4);
+			im.setMat(im.cvHistogramEqu());
+			im.DrawCvImageColor(pictureBox5);
+			
 		}
 		else if(caso ==2)
 		{
-			DrawCvImageColor(histogramProcessingManual(img), pictureBox8);
-			DrawCvImageColor(histogramProcessingManual(img), pictureBox7);
-			DrawCvImageColor(histogramProcessingManual(img), pictureBox6);
-			DrawCvImageColor(histogramProcessingManual(img), pictureBox5);
+
+			im.setMat(img);
+			im.setMat(im.histogramProcessingManual());
+			im.DrawCvImageColor(pictureBox8);
+
+			im.setMat(img2);
+			im.setMat(im.histogramProcessingManual());
+			im.DrawCvImageColor(pictureBox7);
+
+			im.setMat(img3);
+			im.setMat(im.histogramProcessingManual());
+			im.DrawCvImageColor(pictureBox6);
+
+			im.setMat(img4);
+			im.setMat(im.histogramProcessingManual());
+			im.DrawCvImageColor(pictureBox5);
+			
+			
 		}
 		
 		
 		
 	}
 	
+	
+	
+	
+	
 	button2->Enabled = false;
 
 }
-private: System::Void DrawCvImageColor(Mat img, System::Windows::Forms::PictureBox^ localBox)
-{
-	cvtColor(img, img, CV_BGRA2RGBA);
-	System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
-	System::IntPtr ptr(img.ptr());
-	System::Drawing::Bitmap^ b = gcnew System::Drawing::Bitmap(img.cols,
-		img.rows, img.step, System::Drawing::Imaging::PixelFormat::Format32bppArgb, ptr);
-	System::Drawing::RectangleF rect(0, 0, localBox->Width, localBox->Height);
-	graphics->DrawImage(b, rect);
-}
+
 private: System::Void Histogram_Load(System::Object^  sender, System::EventArgs^  e) {
 	if (caso == 1)
 	{

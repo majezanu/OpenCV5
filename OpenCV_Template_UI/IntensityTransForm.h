@@ -3,6 +3,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2\highgui\highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include "Img.h"
  
 
 namespace OpenCVTemplateUI {
@@ -46,6 +47,7 @@ namespace OpenCVTemplateUI {
 		int caso;
 		int constant;
 		int gamma;
+
 		
 	private: System::Windows::Forms::Label^  label2;
 	protected:
@@ -269,19 +271,20 @@ namespace OpenCVTemplateUI {
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		Mat img;
+		Img im = Img();
+		Img new_Image = Img();
+		
 		
 		switch (caso)
 		{
 		case 1:
 			label1->Text = "Applyng Negative Transform";
 			img = imread("images/Fig3_4.tif");
+			
 			if (img.data)
 			{
-				
-				
-				DrawCvImageColor(Image2Negative(img), pictureBox2);
-
-
+				im.setMat(img);
+				new_Image.setMat(im.Image2Negative());
 			}
 
 			break;
@@ -290,102 +293,54 @@ namespace OpenCVTemplateUI {
 			img = imread("images/Fig3_8.tif");
 			if (img.data)
 			{
-
-				
-
-				DrawCvImageColor(Image2Gamma(img, constant, gamma), pictureBox2);
+				im.setMat(img);
+				new_Image.setMat(im.Image2Gamma(constant, gamma));
+		
 			}
 
 			break;
 		case 3:
 			label1->Text = "Applyng Logaritmic Transform";
 			img = imread("images/Fig3_5.tif");
+			
 			if (img.data)
 			{
-				//imshow("Original", img);
-				//DrawCvImageColor(img, pictureBox1);
-				//imshow("Logaritmic", Image2Log(img, constant));
-				DrawCvImageColor(Image2Log(img, constant), pictureBox2);
+				im.setMat(img);
+				new_Image.setMat(im.Image2Log(constant));
+			
 			}
 
 			break;
 		case 4:
 			label1->Text = "Applyng Gamma Transform";
 			img = imread("images/Fig3_7.tif");
+			
 			if (img.data)
 			{
 
-				//DrawCvImageColor(img, pictureBox1);
-
-				DrawCvImageColor(Image2Gamma(img, constant, gamma), pictureBox2);
+				im.setMat(img);
+				new_Image.setMat(im.Image2Gamma(constant, gamma));
+				
 			}
 			
 			break;
 		case 5:
 			label1->Text = "Applyng Gamma Transform";
 			img = imread("images/Fig3_9.tif");
+			
 			if (img.data)
 			{
-
-				//DrawCvImageColor(img, pictureBox1);
-
-				DrawCvImageColor(Image2Gamma(img, constant, gamma), pictureBox2);
+				im.setMat(img);
+				new_Image.setMat(im.Image2Gamma(constant, gamma));
+				
 			}
 			break;
 		}
+		new_Image.DrawCvImageColor(pictureBox2);
 		button1->Enabled = false;
 		
 	}
-			private: Mat Image2Negative(Mat original_image) {
-				Mat gray_image;
-				cvtColor(original_image, gray_image, cv::COLOR_RGB2GRAY);
-				gray_image = 255 - gray_image;
-				cvtColor(gray_image, gray_image, cv::COLOR_GRAY2BGR);
-				 return gray_image;
-			 }
-			private: Mat Image2Log(Mat origianl_image, int C) 
-			{
-				
-				origianl_image.convertTo(origianl_image, CV_32F);
-				log(origianl_image + 1, origianl_image);
-				origianl_image = C * origianl_image;
-				convertScaleAbs(origianl_image, origianl_image);
-				normalize(origianl_image, origianl_image, 0, 255, NORM_MINMAX);
-				return origianl_image;
-			}
-			private: Mat Image2Gamma(Mat origianl_image, int C,int value_gamma)
-			{
-
-				origianl_image.convertTo(origianl_image, CV_32F);
-				pow(origianl_image, value_gamma / 10.0, origianl_image);
-				origianl_image = C * origianl_image;
-				normalize(origianl_image, origianl_image, 0, 255, NORM_MINMAX);	
-				convertScaleAbs(origianl_image,origianl_image);					
-				return origianl_image;
-			}
-
-			private: System::Void DrawCvImageColor(Mat img, System::Windows::Forms::PictureBox^ localBox)
-			 {
-			
-				cvtColor(img, img, CV_BGRA2RGBA);
-				System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
-				System::IntPtr ptr(img.ptr());
-				System::Drawing::Bitmap^ b = gcnew System::Drawing::Bitmap(img.cols,
-					img.rows, img.step, System::Drawing::Imaging::PixelFormat::Format32bppArgb, ptr);
-				System::Drawing::RectangleF rect(0, 0,localBox->Width, localBox->Height);
-				graphics->DrawImage(b, rect);
-			 }
-			private: System::Void DrawCvImageGray(Mat img, System::Windows::Forms::PictureBox^ localBox)
-			{
-				cv::Mat grayImage = img;
-				//cv::cvtColor(img, grayImage, CV_BGR2GRAY, 1);
-				System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
-				System::IntPtr ptr(grayImage.ptr());
-				System::Drawing::Bitmap^ b = gcnew System::Drawing::Bitmap(grayImage.cols,
-					grayImage.rows, grayImage.step, System::Drawing::Imaging::PixelFormat::Format16bppGrayScale, ptr);
-				System::Drawing::RectangleF rect(0, 0, localBox->Width, localBox->Height);
-				graphics->DrawImage(b, rect);
-			}
+					
 
 private: System::Void trackBar1_Scroll(System::Object^  sender, System::EventArgs^  e) {
 			
@@ -460,63 +415,32 @@ private: System::Void IntensityTransForm_Load(System::Object^  sender, System::E
 }
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im = Img();
+	cv::String path;
 	label1->Text = "Showing Original";
-
 	switch (caso)
 	{
 	case 1:
-
-		img = imread("images/Fig3_4.tif");
-		if (img.data)
-		{
-			DrawCvImageColor(img, pictureBox1);
-			
-		}
-
+		path = "images/Fig3_4.tif";
 		break;
 	case 2:
-		img = imread("images/Fig3_8.tif");
-		if (img.data)
-		{
-
-			DrawCvImageColor(img, pictureBox1);
-
-		}
-
+		path = "images/Fig3_8.tif";
 		break;
 	case 3:
-
-		img = imread("images/Fig3_5.tif");
-		if (img.data)
-		{
-			//imshow("Original", img);
-			DrawCvImageColor(img, pictureBox1);
-		
-		}
-
+		path = "images/Fig3_5.tif";
 		break;
 	case 4:
-		
-		img = imread("images/Fig3_7.tif");
-		if (img.data)
-		{
-
-			DrawCvImageColor(img, pictureBox1);
-
-		
-		}
-
+		path = "images/Fig3_7.tif";
 		break;
 	case 5:
-		
-		img = imread("images/Fig3_9.tif");
-		if (img.data)
-		{
-
-			DrawCvImageColor(img, pictureBox1);
-
-		}
+		path = "images/Fig3_9.tif";
 		break;
+	}
+	img = imread(path);
+	if (img.data)
+	{
+		im.setMat(img);
+		im.DrawCvImageColor(pictureBox1);
 	}
 	button2->Enabled = false;
 

@@ -5,6 +5,7 @@
 #include <opencv/cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "Img.h"
 
 namespace OpenCVTemplateUI {
 
@@ -16,11 +17,13 @@ namespace OpenCVTemplateUI {
 	using namespace System::Drawing;
 	using namespace cv;
 
+
 	/// <summary>
 	/// Resumen de LocalHist
 	/// </summary>
 	public ref class LocalHist : public System::Windows::Forms::Form
 	{
+		
 	public:
 		LocalHist(void)
 		{
@@ -96,6 +99,7 @@ namespace OpenCVTemplateUI {
 			this->label8->Size = System::Drawing::Size(83, 13);
 			this->label8->TabIndex = 66;
 			this->label8->Text = L"Local Histogram";
+			this->label8->Click += gcnew System::EventHandler(this, &LocalHist::label8_Click);
 			// 
 			// label7
 			// 
@@ -144,6 +148,7 @@ namespace OpenCVTemplateUI {
 			this->pictureBox3->Size = System::Drawing::Size(344, 300);
 			this->pictureBox3->TabIndex = 46;
 			this->pictureBox3->TabStop = false;
+			this->pictureBox3->Click += gcnew System::EventHandler(this, &LocalHist::pictureBox3_Click);
 			// 
 			// pictureBox4
 			// 
@@ -152,6 +157,7 @@ namespace OpenCVTemplateUI {
 			this->pictureBox4->Size = System::Drawing::Size(344, 300);
 			this->pictureBox4->TabIndex = 45;
 			this->pictureBox4->TabStop = false;
+			this->pictureBox4->Click += gcnew System::EventHandler(this, &LocalHist::pictureBox4_Click);
 			// 
 			// pictureBox2
 			// 
@@ -160,6 +166,7 @@ namespace OpenCVTemplateUI {
 			this->pictureBox2->Size = System::Drawing::Size(344, 300);
 			this->pictureBox2->TabIndex = 44;
 			this->pictureBox2->TabStop = false;
+			this->pictureBox2->Click += gcnew System::EventHandler(this, &LocalHist::pictureBox2_Click);
 			// 
 			// label1
 			// 
@@ -169,6 +176,7 @@ namespace OpenCVTemplateUI {
 			this->label1->Size = System::Drawing::Size(42, 13);
 			this->label1->TabIndex = 67;
 			this->label1->Text = L"Original";
+			this->label1->Click += gcnew System::EventHandler(this, &LocalHist::label1_Click);
 			// 
 			// label6
 			// 
@@ -187,6 +195,7 @@ namespace OpenCVTemplateUI {
 			this->label2->Size = System::Drawing::Size(127, 13);
 			this->label2->TabIndex = 69;
 			this->label2->Text = L"Vary Neighborhood Level";
+			this->label2->Click += gcnew System::EventHandler(this, &LocalHist::label2_Click);
 			// 
 			// trackBar1
 			// 
@@ -204,6 +213,7 @@ namespace OpenCVTemplateUI {
 			this->label3->Size = System::Drawing::Size(13, 13);
 			this->label3->TabIndex = 71;
 			this->label3->Text = L"0";
+			this->label3->Click += gcnew System::EventHandler(this, &LocalHist::label3_Click);
 			// 
 			// LocalHist
 			// 
@@ -226,6 +236,7 @@ namespace OpenCVTemplateUI {
 			this->Name = L"LocalHist";
 			this->Text = L"LocalHist";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
+			this->Load += gcnew System::EventHandler(this, &LocalHist::LocalHist_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
@@ -239,87 +250,63 @@ namespace OpenCVTemplateUI {
 	}
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im;
 	img = imread("images/Fig0326(a)(embedded_square_noisy_512).tif");
 	if (img.data)
 	{
-		DrawCvImageColor(img, pictureBox4);
+		im.setMat(img);
+		im.DrawCvImageColor(pictureBox4);
+		
 	}
-}
-private: System::Void DrawCvImageColor(Mat img, System::Windows::Forms::PictureBox^ localBox)
-{
-	cvtColor(img, img, CV_BGRA2RGBA);
-	System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
-	System::IntPtr ptr(img.ptr());
-	System::Drawing::Bitmap^ b = gcnew System::Drawing::Bitmap(img.cols,
-		img.rows, img.step, System::Drawing::Imaging::PixelFormat::Format32bppArgb, ptr);
-	System::Drawing::RectangleF rect(0, 0, localBox->Width, localBox->Height);
-	graphics->DrawImage(b, rect);
 }
 
 private: System::Void applyContrast_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im;
 	img = imread("images/Fig0326(a)(embedded_square_noisy_512).tif");
 	if (img.data)
 	{
-		DrawCvImageColor(HistogramEqu(img), pictureBox2);
+		im.setMat(img);
+		im.setMat(im.cvHistogramEqu());
+		im.DrawCvImageColor(pictureBox2);
+		
 	}
 }
-		 private: Mat HistogramEqu(Mat original_image)
-		 {
-			 Mat clone = original_image.clone();
-
-			 /// Convert to grayscale
-			 cvtColor(clone, clone, COLOR_BGR2GRAY);
-
-			 /// Apply Histogram Equalization
-			 equalizeHist(clone, clone);
-			 cvtColor(clone, clone, COLOR_GRAY2BGR);
-			 return clone;
-		 }
-		private: Mat cvEqualizeLocalHist(Mat  original_image, int nb)
-		{
-			Mat clone = original_image.clone();
-			cvtColor(clone, clone, COLOR_BGR2GRAY);
-			Mat destiny = Mat::zeros(clone.size(), clone.type());
-			Mat border;
-			copyMakeBorder(clone, border, nb, nb, nb, nb, BORDER_CONSTANT);
-
-			Mat kernel = Mat::zeros(2 * nb + 1, 2 * nb + 1, clone.type());
-			for (int i = nb; i < clone.rows + nb; i++) 
-			{
-				 for (int j = nb; j < clone.cols + nb; j++) 
-				 {
-					for (int k = nb * -1; k <= nb; k++) 
-					{ 
-						  for (int n = nb * -1; n <= nb; n++) 
-						  {
-							  kernel.at<uchar>(k + nb, n + nb) = border.at<uchar>(i + k, j + n);
-						  }
-					}
-					equalizeHist(kernel, kernel);
-					destiny.at<uchar>(i - nb, j - nb) = kernel.at<uchar>(nb, nb);
-
-				 }
-			}
-			cvtColor(destiny, destiny, COLOR_GRAY2BGR);
-			return destiny;
-
-
-
-	    }
+		
+		
 
 private: System::Void applyThreshold_Click(System::Object^  sender, System::EventArgs^  e) {
 	Mat img;
+	Img im, new_image;
 	img = imread("images/Fig0326(a)(embedded_square_noisy_512).tif");
 	if (img.data)
 	{
-		DrawCvImageColor(cvEqualizeLocalHist(img, trackBar1->Value), pictureBox3);
+		im.setMat(img);
+		im.setMat(im.cvEqualizeLocalHist(trackBar1->Value));
+		im.DrawCvImageColor(pictureBox3);
+		//DrawCvImageColor(cvEqualizeLocalHist(img, trackBar1->Value), pictureBox3);
 	}
 	applyThreshold->Enabled = false;
 }
 private: System::Void trackBar1_Scroll(System::Object^  sender, System::EventArgs^  e) {
 	applyThreshold->Enabled = true;
 	label3->Text = System::Convert::ToString(trackBar1->Value);
+}
+private: System::Void label2_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void label8_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void pictureBox3_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void pictureBox4_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void pictureBox2_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void LocalHist_Load(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }

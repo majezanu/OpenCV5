@@ -158,9 +158,13 @@
     <ClCompile Include="About.cpp" />
     <ClCompile Include="ContrastStretching.cpp" />
     <ClCompile Include="Histogram.cpp" />
+    <ClCompile Include="Img.cpp" />
     <ClCompile Include="IntensityTransForm.cpp" />
+    <ClCompile Include="LaplacianForm.cpp" />
     <ClCompile Include="LocalHist.cpp" />
+    <ClCompile Include="LocalHistogramStatistics.cpp" />
     <ClCompile Include="MyainForm.cpp" />
+    <ClCompile Include="NonlinearFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -172,13 +176,23 @@
     <ClInclude Include="Histogram.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Img.h" />
     <ClInclude Include="IntensityTransForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="LaplacianForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="LocalHist.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="LocalHistogramStatistics.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MyainForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="NonlinearFilter.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
@@ -198,8 +212,14 @@
     <EmbeddedResource Include="LocalHist.resx">
       <DependentUpon>LocalHist.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LocalHistogramStatistics.resx">
+      <DependentUpon>LocalHistogramStatistics.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyainForm.resx">
       <DependentUpon>MyainForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NonlinearFilter.resx">
+      <DependentUpon>NonlinearFilter.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

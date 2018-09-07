@@ -3,7 +3,9 @@
   OpenCVTemplateUI.Histogram.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.IntensityTransForm.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.LocalHist.resources - Embedded, ContainedInManifestFile, 
+  OpenCVTemplateUI.LocalHistogramStatistics.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.MyainForm.resources - Embedded, ContainedInManifestFile, 
+  OpenCVTemplateUI.NonlinearFilter.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly OpenCV_Template_UI, Version=0.0.*, Culture=Todos los idiomas (todos los países): 
 	hash=SHA1, flags=PublicKey
@@ -32,6 +34,12 @@ Class OpenCVTemplateUI.IntensityTransForm: AutoLayout, AnsiClass, Class, Public,
   :System.Windows.Forms.Form
     Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class OpenCVTemplateUI.LocalHist: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class OpenCVTemplateUI.LocalHistogramStatistics: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class OpenCVTemplateUI.NonlinearFilter: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class OpenCVTemplateUI.MyainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
