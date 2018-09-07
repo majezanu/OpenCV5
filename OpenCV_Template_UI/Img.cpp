@@ -242,23 +242,66 @@ Mat Img::medFilter(int nb)
 {
 
 	cvtColor(mMat, mMat, COLOR_BGR2GRAY);
-	mMat.convertTo(mMat, CV_32F);
+	
 	Mat _dst = Mat::zeros(mMat.size(), mMat.type());	
 	medianBlur(mMat, _dst, 2 * nb + 1);
-	_dst.convertTo(_dst, CV_8U);
+	
 	cvtColor(_dst, _dst, COLOR_GRAY2BGR);
 	return _dst;
 }
 
 Mat Img::lapFilter(Mat _kern) {
 	cvtColor(mMat, mMat, COLOR_BGR2GRAY);
+	mMat.convertTo(mMat, CV_32F);
 	Mat _dst = Mat::zeros(mMat.size(), mMat.type());	
 	Point _anchor = Point(1, 1);
 	filter2D(mMat, _dst, CV_32F, _kern, _anchor, 0, BORDER_DEFAULT); 
-	cvtColor(_dst, _dst, COLOR_GRAY2BGR);
+	
 	return _dst;
 }
 
+Mat Img::lapFilterSCaled()
+{
+	double min, max;
+	Mat dst;
+	minMaxLoc(mMat, &min, &max);
+	mMat.copyTo(dst);
+	dst += min;
+	normalize(dst, dst, 0, 255, NORM_MINMAX);
+	dst.convertTo(dst, CV_8U);
+	cvtColor(dst, dst, COLOR_GRAY2BGR);
+	return dst;
+
+}
+
+Mat Img::sumLap(Mat lap)
+{
+	Mat dst;
+	cvtColor(mMat, mMat, COLOR_BGR2GRAY);
+	mMat.convertTo(mMat, CV_32F);
+	dst = mMat - lap;
+	dst.convertTo(dst, CV_8U);
+	cvtColor(dst, dst, COLOR_GRAY2BGR);
+	return dst;
+
+}
+
+Mat Img::fuzzyFilter(int _vd, int _vg, int _vb) { 
+	cvtColor(mMat, mMat, COLOR_BGR2GRAY);
+	Mat _src = mMat;
+	Mat _dst = Mat::zeros(_src.size(), _src.type());
+	float udark, ugray, ubright;
+	for (int i = 0; i < _src.rows; i++) {
+		for (int j = 0; j < _src.cols; j++) {
+			udark = trapezoidalMembership(_src.at<uchar>(i, j), 0, 80, 0, 47);
+			ugray = triangularMembership(_src.at<uchar>(i, j), 127, 47, 47);
+			ubright = trapezoidalMembership(_src.at<uchar>(i, j), 174, 255, 47, 0);
+			_dst.at<uchar>(i, j) = (udark*_vd + ugray * _vg + ubright * _vb) / (udark + ugray + ubright);
+		}
+	}
+	cvtColor(_dst, _dst, COLOR_GRAY2BGR);
+	return _dst;
+}
 
 int Img::computeContrast(int point, int r1, int s1, int r2, int s2)
 {
@@ -291,9 +334,37 @@ double Img::calcVar(Mat _src, float _mean) {
 	return (double)sum(temp1)[0] / temp1.total();
 }
 
+float Img::triangularMembership(float z, float a, float b, float c) 
+{ 
+	if (z >= (a - b) && z < a) {
+		return (1 - (a - z) / b);
+	}
+	else if (z >= a && z <= a + c) {
+		return (1 - (z - a) / c);
+	}
+	else {
+		return 0;
+	}
+}
+
+float Img::trapezoidalMembership(float z, float a, float b, float c, float d) { 
+	if (z >= (a - c) && z < a) {
+		return (1 - (a - z) / c);
+	}
+	else if (z >= a && z < b) {
+		return 1;
+	}
+	else if (z >= b && z <= (b + d)) {
+		return (1 - (z - b) / d);
+	}
+	else {
+		return 0;
+	}
+}
+
 Void Img::DrawCvImageColor(System::Windows::Forms::PictureBox^ localBox)
 {
-
+	mMat.convertTo(mMat, CV_8U);
 	cvtColor(mMat, mMat, CV_BGRA2RGBA);
 	System::Drawing::Graphics^ graphics = localBox->CreateGraphics();
 	System::IntPtr ptr(mMat.ptr());

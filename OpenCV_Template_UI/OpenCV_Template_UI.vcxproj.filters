@@ -45,6 +45,9 @@
     <ClCompile Include="LaplacianForm.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="FuzzyFilterForm.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyainForm.h">
@@ -77,6 +80,9 @@
     <ClInclude Include="LaplacianForm.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="FuzzyFilterForm.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyainForm.resx">
@@ -98,6 +104,9 @@
       <Filter>Archivos de recursos</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="LocalHistogramStatistics.resx">
+      <Filter>Archivos de recursos</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NonlinearFilter.resx">
       <Filter>Archivos de recursos</Filter>
     </EmbeddedResource>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include "LocalHist.h"
 #include "LocalHistogramStatistics.h"
 #include "NonlinearFilter.h"
+#include "LaplacianForm.h"
 #include "About.h"
 
 namespace OpenCVTemplateUI {
@@ -84,6 +85,7 @@ namespace OpenCVTemplateUI {
 	private: System::Windows::Forms::ToolStripMenuItem^  nonlinearToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  medianFilterToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  laplacianToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  fuzzyFilterToolStripMenuItem;
 
 
 
@@ -122,16 +124,17 @@ namespace OpenCVTemplateUI {
 					this->spatialFilteringToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->nonlinearToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->medianFilterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->laplacianToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->fuzzyFilterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->menuStrip1->SuspendLayout();
 					this->SuspendLayout();
 					// 
 					// menuStrip1
 					// 
-					this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+					this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
 						this->negativeTransformationToolStripMenuItem,
-							this->histogramProcessingToolStripMenuItem, this->spatialFilteringToolStripMenuItem, this->aboutToolStripMenuItem
+							this->histogramProcessingToolStripMenuItem, this->spatialFilteringToolStripMenuItem, this->fuzzyFilterToolStripMenuItem, this->aboutToolStripMenuItem
 					});
 					this->menuStrip1->Location = System::Drawing::Point(0, 0);
 					this->menuStrip1->Name = L"menuStrip1";
@@ -276,6 +279,13 @@ namespace OpenCVTemplateUI {
 					this->medianFilterToolStripMenuItem->Text = L"Median Filter";
 					this->medianFilterToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::medianFilterToolStripMenuItem_Click);
 					// 
+					// laplacianToolStripMenuItem
+					// 
+					this->laplacianToolStripMenuItem->Name = L"laplacianToolStripMenuItem";
+					this->laplacianToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->laplacianToolStripMenuItem->Text = L"Laplacian";
+					this->laplacianToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::laplacianToolStripMenuItem_Click);
+					// 
 					// aboutToolStripMenuItem
 					// 
 					this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
@@ -283,11 +293,11 @@ namespace OpenCVTemplateUI {
 					this->aboutToolStripMenuItem->Text = L"About";
 					this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::aboutToolStripMenuItem_Click);
 					// 
-					// laplacianToolStripMenuItem
+					// fuzzyFilterToolStripMenuItem
 					// 
-					this->laplacianToolStripMenuItem->Name = L"laplacianToolStripMenuItem";
-					this->laplacianToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-					this->laplacianToolStripMenuItem->Text = L"Laplacian";
+					this->fuzzyFilterToolStripMenuItem->Name = L"fuzzyFilterToolStripMenuItem";
+					this->fuzzyFilterToolStripMenuItem->Size = System::Drawing::Size(77, 20);
+					this->fuzzyFilterToolStripMenuItem->Text = L"Fuzzy Filter";
 					// 
 					// MyainForm
 					// 
@@ -404,6 +414,15 @@ namespace OpenCVTemplateUI {
 			h->Show();
 			h->Activate();
 		}
+		private: System::Void LaplacianView()
+		{
+			clearMDI();
+			LaplacianForm^ h = gcnew LaplacianForm();
+			h->MdiParent = this;
+			h->MaximizeBox = true;
+			h->Show();
+			h->Activate();
+		}
 		private: System::Void aboutView()
 		{
 			clearMDI();
@@ -413,6 +432,7 @@ namespace OpenCVTemplateUI {
 			h->Show();
 			h->Activate();
 		}
+
 		private: System::Void clearMDI()
 		{
 			for each(Form^ c in MdiChildren)
@@ -461,6 +481,9 @@ private: System::Void nonlinearToolStripMenuItem_Click(System::Object^  sender, 
 }
 private: System::Void medianFilterToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	NonLinearFilteringView();
+}
+private: System::Void laplacianToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	LaplacianView();
 }
 };
 }

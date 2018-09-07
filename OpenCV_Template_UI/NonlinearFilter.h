@@ -252,6 +252,7 @@ namespace OpenCVTemplateUI {
 			this->Controls->Add(this->pictureBox2);
 			this->Name = L"NonlinearFilter";
 			this->Text = L"NonlinearFilter";
+			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar5))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar4))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();

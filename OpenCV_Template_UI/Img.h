@@ -39,11 +39,16 @@ public:
 	Mat avgFilter(int nb);
 	Mat medFilter(int nb);
 	Mat lapFilter(Mat _kern);
+	Mat lapFilterSCaled();
+	Mat sumLap(Mat lap);
+	Mat fuzzyFilter(int _vd, int _vg, int _vb);
 	
 	int computeContrast(int point, int r1, int s1, int r2, int s2);
 	float calcMean(Mat _src);
 	double calcVar(Mat _src);
 	double calcVar(Mat _src, float _mean);
+	float triangularMembership(float z, float a, float b, float c);
+	float trapezoidalMembership(float z, float a, float b, float c, float d);
 	Void DrawCvImageColor(System::Windows::Forms::PictureBox^ localBox);
 
 

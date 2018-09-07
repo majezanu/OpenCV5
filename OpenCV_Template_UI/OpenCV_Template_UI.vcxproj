@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="About.cpp" />
     <ClCompile Include="ContrastStretching.cpp" />
+    <ClCompile Include="FuzzyFilterForm.cpp" />
     <ClCompile Include="Histogram.cpp" />
     <ClCompile Include="Img.cpp" />
     <ClCompile Include="IntensityTransForm.cpp" />
@@ -171,6 +172,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ContrastStretching.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="FuzzyFilterForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Histogram.h">
@@ -208,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="IntensityTransForm.resx">
       <DependentUpon>IntensityTransForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LaplacianForm.resx">
+      <DependentUpon>LaplacianForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocalHist.resx">
       <DependentUpon>LocalHist.h</DependentUpon>
