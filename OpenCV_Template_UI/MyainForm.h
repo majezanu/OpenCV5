@@ -8,6 +8,7 @@
 #include "LocalHistogramStatistics.h"
 #include "NonlinearFilter.h"
 #include "LaplacianForm.h"
+#include "FuzzyFilterForm.h"
 #include "About.h"
 
 namespace OpenCVTemplateUI {
@@ -125,8 +126,8 @@ namespace OpenCVTemplateUI {
 					this->nonlinearToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->medianFilterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->laplacianToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-					this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->fuzzyFilterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+					this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 					this->menuStrip1->SuspendLayout();
 					this->SuspendLayout();
 					// 
@@ -268,7 +269,7 @@ namespace OpenCVTemplateUI {
 					// 
 					this->nonlinearToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->medianFilterToolStripMenuItem });
 					this->nonlinearToolStripMenuItem->Name = L"nonlinearToolStripMenuItem";
-					this->nonlinearToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->nonlinearToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->nonlinearToolStripMenuItem->Text = L"Nonlinear Filtering";
 					this->nonlinearToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::nonlinearToolStripMenuItem_Click);
 					// 
@@ -282,9 +283,16 @@ namespace OpenCVTemplateUI {
 					// laplacianToolStripMenuItem
 					// 
 					this->laplacianToolStripMenuItem->Name = L"laplacianToolStripMenuItem";
-					this->laplacianToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+					this->laplacianToolStripMenuItem->Size = System::Drawing::Size(172, 22);
 					this->laplacianToolStripMenuItem->Text = L"Laplacian";
 					this->laplacianToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::laplacianToolStripMenuItem_Click);
+					// 
+					// fuzzyFilterToolStripMenuItem
+					// 
+					this->fuzzyFilterToolStripMenuItem->Name = L"fuzzyFilterToolStripMenuItem";
+					this->fuzzyFilterToolStripMenuItem->Size = System::Drawing::Size(77, 20);
+					this->fuzzyFilterToolStripMenuItem->Text = L"Fuzzy Filter";
+					this->fuzzyFilterToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::fuzzyFilterToolStripMenuItem_Click);
 					// 
 					// aboutToolStripMenuItem
 					// 
@@ -292,12 +300,6 @@ namespace OpenCVTemplateUI {
 					this->aboutToolStripMenuItem->Size = System::Drawing::Size(52, 20);
 					this->aboutToolStripMenuItem->Text = L"About";
 					this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyainForm::aboutToolStripMenuItem_Click);
-					// 
-					// fuzzyFilterToolStripMenuItem
-					// 
-					this->fuzzyFilterToolStripMenuItem->Name = L"fuzzyFilterToolStripMenuItem";
-					this->fuzzyFilterToolStripMenuItem->Size = System::Drawing::Size(77, 20);
-					this->fuzzyFilterToolStripMenuItem->Text = L"Fuzzy Filter";
 					// 
 					// MyainForm
 					// 
@@ -423,6 +425,15 @@ namespace OpenCVTemplateUI {
 			h->Show();
 			h->Activate();
 		}
+		private: System::Void FuzzyView()
+		{
+			clearMDI();
+			FuzzyFilterForm^ h = gcnew FuzzyFilterForm();
+			h->MdiParent = this;
+			h->MaximizeBox = true;
+			h->Show();
+			h->Activate();
+		}
 		private: System::Void aboutView()
 		{
 			clearMDI();
@@ -484,6 +495,9 @@ private: System::Void medianFilterToolStripMenuItem_Click(System::Object^  sende
 }
 private: System::Void laplacianToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	LaplacianView();
+}
+private: System::Void fuzzyFilterToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	FuzzyView();
 }
 };
 }

@@ -109,5 +109,8 @@
     <EmbeddedResource Include="NonlinearFilter.resx">
       <Filter>Archivos de recursos</Filter>
     </EmbeddedResource>
+    <EmbeddedResource Include="LaplacianForm.resx">
+      <Filter>Archivos de recursos</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

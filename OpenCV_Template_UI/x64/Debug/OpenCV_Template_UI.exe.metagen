@@ -1,5 +1,6 @@
   OpenCVTemplateUI.About.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.ContrastStretching.resources - Embedded, ContainedInManifestFile, 
+  OpenCVTemplateUI.FuzzyFilterForm.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.Histogram.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.IntensityTransForm.resources - Embedded, ContainedInManifestFile, 
   OpenCVTemplateUI.LaplacianForm.resources - Embedded, ContainedInManifestFile, 
@@ -26,6 +27,9 @@ Class OpenCVTemplateUI.About: AutoLayout, AnsiClass, Class, Public, BeforeFieldI
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class OpenCVTemplateUI.ContrastStretching: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class OpenCVTemplateUI.FuzzyFilterForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class OpenCVTemplateUI.Histogram: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit

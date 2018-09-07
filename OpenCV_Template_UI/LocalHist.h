@@ -123,7 +123,7 @@ namespace OpenCVTemplateUI {
 			// 
 			// applyThreshold
 			// 
-			this->applyThreshold->Location = System::Drawing::Point(1075, 439);
+			this->applyThreshold->Location = System::Drawing::Point(1075, 302);
 			this->applyThreshold->Name = L"applyThreshold";
 			this->applyThreshold->Size = System::Drawing::Size(170, 44);
 			this->applyThreshold->TabIndex = 48;
@@ -133,7 +133,7 @@ namespace OpenCVTemplateUI {
 			// 
 			// applyContrast
 			// 
-			this->applyContrast->Location = System::Drawing::Point(1075, 300);
+			this->applyContrast->Location = System::Drawing::Point(1075, 235);
 			this->applyContrast->Name = L"applyContrast";
 			this->applyContrast->Size = System::Drawing::Size(170, 44);
 			this->applyContrast->TabIndex = 47;

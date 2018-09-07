@@ -241,6 +241,7 @@ namespace OpenCVTemplateUI {
 			this->Name = L"About";
 			this->Text = L"About";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
+			this->Load += gcnew System::EventHandler(this, &About::About_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -248,5 +249,7 @@ namespace OpenCVTemplateUI {
 #pragma endregion
 	private: System::Void label2_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-	};
+	private: System::Void About_Load(System::Object^  sender, System::EventArgs^  e) {
+	}
+};
 }

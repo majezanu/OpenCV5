@@ -50,6 +50,7 @@ public:
 	float triangularMembership(float z, float a, float b, float c);
 	float trapezoidalMembership(float z, float a, float b, float c, float d);
 	Void DrawCvImageColor(System::Windows::Forms::PictureBox^ localBox);
+	void Show(cv::String name);
 
 
 private: 

@@ -207,6 +207,9 @@
     <EmbeddedResource Include="ContrastStretching.resx">
       <DependentUpon>ContrastStretching.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FuzzyFilterForm.resx">
+      <DependentUpon>FuzzyFilterForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Histogram.resx">
       <DependentUpon>Histogram.h</DependentUpon>
     </EmbeddedResource>

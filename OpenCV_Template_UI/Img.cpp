@@ -299,7 +299,7 @@ Mat Img::fuzzyFilter(int _vd, int _vg, int _vb) {
 			_dst.at<uchar>(i, j) = (udark*_vd + ugray * _vg + ubright * _vb) / (udark + ugray + ubright);
 		}
 	}
-	cvtColor(_dst, _dst, COLOR_GRAY2BGR);
+	
 	return _dst;
 }
 
@@ -372,4 +372,9 @@ Void Img::DrawCvImageColor(System::Windows::Forms::PictureBox^ localBox)
 		mMat.rows, mMat.step, System::Drawing::Imaging::PixelFormat::Format32bppArgb, ptr);
 	System::Drawing::RectangleF rect(0, 0, localBox->Width, localBox->Height);
 	graphics->DrawImage(b, rect);
+}
+
+Void Img::Show(cv::String name)
+{
+	imshow(name, mMat);
 }
